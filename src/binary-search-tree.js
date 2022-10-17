@@ -12,17 +12,17 @@ class BinarySearchTree {
   }
 
   root() {
-    return this.root ? this.root : null
+    return this.root
   }
 
-  add(value) {
+  add(data) {
     if (!this.root) {
-      this.root = new Node(value)
+      this.root = new Node(data)
     } else {
       let node = this.root
-      let newNode = new Node(value)
+      let newNode = new Node(data)
       while (node) {
-        if (value > node.data) {
+        if (data > node.data) {
           if (!node.right) {
             break
           }
@@ -34,7 +34,7 @@ class BinarySearchTree {
           node = node.left
         }
       }
-      if (value > node.data) {
+      if (data > node.data) {
         node.right = newNode
       } else {
         node.left = newNode
@@ -42,53 +42,62 @@ class BinarySearchTree {
     }
   }
 
-  has(value) {
-    return hasValue(this.root, value);
-
-    function hasValue(node, value) {
+  has(data) {
+    function hasValue(node, data) {
       if (!node) {
         return false
       }
-
-      if (node.data === value) {
+      if (node.data === data) {
         return true
       }
-
-      return node.data > value ? searchWithIn(node.left, value) : searchWithIn(node.right, value)
-
+      return node.data > data ? hasValue(node.left, data) : hasValue(node.right, data)
     }
+    return hasValue(this.root, data);
   }
 
-  find(value) {
-    function search(value, node) {
+  find(data) {
+    function search(data, node) {
       if (!node) {
         return null
       }
-      if (node.value === value) {
+      if (node.data === data) {
         return node
       }
-      if (node.value < value) {
-        return search(value, node.right)
+      if (node.data < data) {
+        return search(data, node.right)
       } else {
-        return search(value, node.left)
+        return search(data, node.left)
       }
     }
-    return search(value, this.root)
+    return search(data, this.root)
   }
 
-  remove(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  remove(data) {
   }
 
   min() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    if (!this.root) {
+      return null
+    } else {
+      let cur = this.root
+      while (cur.left) {
+        cur = cur.left
+      }
+      return cur.data
+    }
+
   }
 
   max() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    if (!this.root) {
+      return null
+    } else {
+      let cur = this.root
+      while (cur.right) {
+        cur = cur.right
+      }
+      return cur.data
+    }
   }
 }
 
