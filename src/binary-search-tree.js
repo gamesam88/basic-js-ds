@@ -22,7 +22,7 @@ class BinarySearchTree {
       let node = this.root
       let newNode = new Node(value)
       while (node) {
-        if (value > node.value) {
+        if (value > node.data) {
           if (!node.right) {
             break
           }
@@ -34,25 +34,28 @@ class BinarySearchTree {
           node = node.left
         }
       }
-      if (value > node.value) {
+      if (value > node.data) {
         node.right = newNode
       } else {
         node.left = newNode
       }
     }
   }
-  print(root = this.root) {
-    if (!root) {
-      return true;
-    }
-    console.log(root.value);
-    this.print(root.left)
-    this.print(root.right)
-  }
 
   has(value) {
-    if (!this.root) {
-      return false
+    return hasValue(this.root, value);
+
+    function hasValue(node, value) {
+      if (!node) {
+        return false
+      }
+
+      if (node.data === value) {
+        return true
+      }
+
+      return node.data > value ? searchWithIn(node.left, value) : searchWithIn(node.right, value)
+
     }
   }
 
@@ -64,7 +67,11 @@ class BinarySearchTree {
       if (node.value === value) {
         return node
       }
-      return node.data < data ? findData(node.right, data) : findData(node.left, data)
+      if (node.value < value) {
+        return search(value, node.right)
+      } else {
+        return search(value, node.left)
+      }
     }
     return search(value, this.root)
   }
