@@ -12,7 +12,11 @@ class BinarySearchTree {
   }
 
   root() {
-    return this.root
+    if (!this.root) {
+      return null
+    } else {
+      return this.root
+    }
   }
 
   add(data) {
@@ -73,6 +77,38 @@ class BinarySearchTree {
   }
 
   remove(data) {
+    function removeValue(node, data) {
+      if (!node) {
+        return null;
+      }
+      if (node.data < data) {
+        node.right = removeValue(node.right, data);
+        return node;
+      } else if (node.data > data) {
+        node.left = removeValue(node.left, data);
+        return node;
+      } else {
+        if (!node.left && !node.right) {
+          return null
+        }
+        if (!node.left) {
+          node = node.right;
+          return node;
+        }
+        if (!node.right) {
+          node = node.left;
+          return node;
+        }
+        let righ = node.right;
+        while (righ.left) {
+          righ = righ.left;
+        }
+        node.data = righ.data;
+        node.right = removeValue(node.right, righ.data);
+        return node;
+      }
+    }
+    this.root = removeValue(this.root, data);
   }
 
   min() {
